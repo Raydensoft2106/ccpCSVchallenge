@@ -40,29 +40,112 @@ namespace csvConv
                 Console.WriteLine("Last write time: {0}", updatedTime);
             }
 
+            
+            switch (extn)
+            {
+                case ".csv":
+                    {
+                        fromCSV(FilePath);
+                        break;
+                    }
+                case ".json":
+                    {
+                        fromJSON(FilePath);
+                        break;
+                    }
+                case ".xml":
+                    {
+                        fromXML(FilePath);
+                        break;
+                    }
+            }
+        }
+
+        private static void fromCSV(string filePath)
+        {
             Console.WriteLine("Please enter the extension you want to convert to:" +
-                "\n1.JSON" +
-                "\n2.XML");
+        "\n1.JSON" +
+        "\n2.XML");
             string Selection = Convert.ToString(Console.ReadLine());
+            var contents = File.ReadAllText(filePath);
+
+            switch (Selection)
+            {
+                case "1":
+                    Console.WriteLine("To JSON");
+                    //Filename: C:\Users\rossh\Desktop\sample.csv
+                    //C:\Users\rossh\source\repos\csvConv\csvConv\bin\Debug\netcoreapp3.1\new_file3.json
+                    //Attempt 1: Success
+
+                    /**
+                    var rootIn = CSVin.ReadFromString(contents);
+
+                    var rootOut = JSONout.WriteToString(rootIn);
+                    File.WriteAllText("new_file.json", rootOut);**/
+
+                    //Attempt 2
+                    var JSONString = JSONout.WriteToString(CSVin.ReadFromString(contents));
+                    File.WriteAllText("new_file3.json", JSONString);
+                    break;
+                case "2":
+                    Console.WriteLine("To XML");
+                    var XMLString = XMLOut.WriteToString(CSVin.ReadFromString(contents));
+                    File.WriteAllText("new_file3.xml", XMLString);
+                    break;
+                default:
+                    Console.WriteLine("Not a vowel");
+                    break;
+            }
+        }
+
+        private static void fromJSON(string filePath)
+        {
+            Console.WriteLine("Please enter the extension you want to convert to:" +
+        "\n1.CSV" +
+        "\n2.XML");
+            string Selection = Convert.ToString(Console.ReadLine());
+            var contents = File.ReadAllText(filePath);
 
             switch (Selection)
             {
                 case "1":
                     Console.WriteLine("To CSV");
-
-                    string[] lines = System.IO.File.ReadAllLines(FilePath);
-                    String csvFileStr = string.Join("", lines);
-                    Console.WriteLine(csvFileStr);
-
-                    var input = CSVReader.ReadFromString(csvFileStr);// C:\Users\rossh\Desktop\sample.csv
-                    
+                    var CSVString = CSVOut.WriteToString(JSONIn.ReadFromString(contents));
+                    File.WriteAllText("new_file3.csv", CSVString);
                     break;
                 case "2":
                     Console.WriteLine("To XML");
-                    //writeToXML();
+                    var XMLString = XMLOut.WriteToString(JSONIn.ReadFromString(contents));
+                    File.WriteAllText("new_file3.xml", XMLString);
                     break;
                 default:
                     Console.WriteLine("Not a vowel");
+                    break;
+            }
+        }
+
+        private static void fromXML(string filePath)
+        {
+            Console.WriteLine("Please enter the extension you want to convert to:" +
+        "\n1.CSV" +
+        "\n2.JSON");
+            string Selection = Convert.ToString(Console.ReadLine());
+            var contents = File.ReadAllText(filePath);
+
+            switch (Selection)
+            {
+                case "1":
+                    Console.WriteLine("To CSV");
+                    var CSVString = CSVOut.WriteToString(XMLIn.ReadFromString(contents));
+                    File.WriteAllText("new_file3.csv", CSVString);
+                    break;
+                case "2":
+                    Console.WriteLine("To JSON");
+                    var JSONString = JSONout.WriteToString(XMLIn.ReadFromString(contents));
+                    File.WriteAllText("new_file3.json", JSONString);
+                    break;
+                default:
+                    Console.WriteLine("Not a number");
                     break;
             }
         }

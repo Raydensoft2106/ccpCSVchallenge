@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace csvConv
 {
-    public class CSVReader
+    public class CSVin
     {
         private enum State
         {
@@ -15,6 +16,7 @@ namespace csvConv
         public static DataNode ReadFromString(string contents)
         {
             var root = DataNode.CreateArray(null);
+            //Console.WriteLine(contents);
 
             var header = new List<string>();
 

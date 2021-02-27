@@ -1,10 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace csvConv
 {
-    public class CSVtoJSON
+    class JSONout
     {
         private static void Append(DataNode node, DataNode parent, StringBuilder sb, bool genBounds = true)
         {
@@ -68,8 +70,12 @@ namespace csvConv
             if (node.Name != null) sb.Append('{');
             Append(node, null, sb);
             if (node.Name != null) sb.Append('}');
-            return sb.ToString();
+            string jsonStr = sb.ToString();
+            Console.WriteLine(jsonStr.ToString());
+            //return JToken.Parse(jsonStr).ToString();
+            return jsonStr.ToString();
         }
+
 
         public static string EscapeJSON(string s)
         {
@@ -111,7 +117,7 @@ namespace csvConv
                         sb.Append("\\f");
                         break;
                     case '\r':
-                        sb.Append("\\r");
+                        //sb.Append("\\r");
                         break;
                     default:
                         if (c < ' ')
@@ -128,7 +134,6 @@ namespace csvConv
             }
             return sb.ToString();
         }
-
 
     }
 }
